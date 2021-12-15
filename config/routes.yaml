@@ -1,0 +1,46 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+car_listAll:
+  path: /cars
+  methods: GET
+  controller: App\Controller\CarController::listAll
+
+car_add:
+  path: /car
+  methods: POST
+  controller: App\Controller\CarController::add
+
+#task specifies path for deletion to be /cars/<id>, which would break uniformity of the api endpoints
+car_delete:
+  path: /car/{id}
+  methods: DELETE
+  controller: App\Controller\CarController::delete
+
+car_listOne:
+  path: /car/{id}
+  methods: GET
+  controller: App\Controller\CarController::listOne
+
+
+car_colour_add:
+  path: /colour
+  methods: POST
+  controller: App\Controller\CarColourController::add
+
+car_colour_delete:
+  path: /colour/{id}
+  methods: DELETE
+  controller: App\Controller\CarColourController::delete
+
+car_colour_listAll:
+  path: /colours
+  methods: GET
+  controller: App\Controller\CarColourController::listAll
+
+car_colour_listOne:
+  path: /colour/{id}
+  methods: GET
+  controller: App\Controller\CarColourController::listOne
+

@@ -1,0 +1,47 @@
+version: '3'
+
+volumes:
+  drivvn_task_database:
+  drivvn_task_database_test:
+
+services:
+  php:
+    build: ./config/docker/
+    links:
+      - mysql
+      - mysql_test
+    volumes:
+      - .:/app
+  mysql:
+    image: bitnami/mariadb:latest
+    ports:
+    - "3306:3306"
+    volumes:
+      - drivvn_task_database:/bitnami/mariadb
+    environment:
+      - MARIADB_ROOT_PASSWORD=password123
+      - MARIADB_USER=user
+      - MARIADB_PASSWORD=password
+      - MARIADB_DATABASE=drivvn_task
+  mysql_test:
+    image: bitnami/mariadb:latest
+    ports:
+      - "3316:3306"
+    volumes:
+      - drivvn_task_database_test:/bitnami/mariadb
+    environment:
+      - MARIADB_ROOT_PASSWORD=password123
+      - MARIADB_USER=test_user
+      - MARIADB_PASSWORD=test_password
+      - MARIADB_DATABASE=drivvn_task_test
+  web:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    links:
+      - php
+      - mysql
+      - mysql_test
+    volumes:
+      - ./public:/app/public
+      - ./config/docker/nginx_site.conf:/etc/nginx/conf.d/default.conf
